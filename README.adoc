@@ -1,0 +1,65 @@
+= EJB Timer execution store
+
+This is a simple Bootable JAR application that provides REST APIs to manage a store that contains EJB timers executions.
+
+If you don't know about the Bootable JAR, then have a look to
+https://github.com/wildfly-extras/wildfly-jar-maven-plugin/[the project repository].
+
+The application leverages the following feature packs:
+
+* org.wildfly:wildfly-galleon-pack:26.0.1.Final
+* org.wildfly:wildfly-datasources-galleon-pack:2.1.1.Final
+
+and layers:
+
+* jaxrs-server - to provide REST APIs support
+* postgresql-datasource - to support JDBC connection to a PostgreSql datasource and install default JNDI resource
+
+The application provides a file:///src/main/java/org/example/ejb/clustered/timers/store/model/[model] that abstracts
+EJB timer execution data and file:///src/main/java/org/example/ejb/clustered/timers/store/api[APIs] to manipulate them.
+
+The main goal is to have a reliable store that can be used to access EJB timer execution data, which for instance can
+be used for making assertions in the context of EJB timers testing.
+
+
+== Build the application
+
+Just run:
+
+[source,shell]
+----
+mvn clean package
+----
+
+== Execute the application
+
+* A PostgreSql instance MUST be available, e.g.: a containerized one can be started as:
+
+[source,shell]
+----
+sudo podman run -d --name postgresql_database_2 -e POSTGRESQL_USER=user -e POSTGRESQL_PASSWORD=pass -e POSTGRESQL_DATABASE=db -p 5432:5432 rhel8/postgresql-10
+----
+
+* Of course, environment variables can be set differently, but in case the previous ones work for you, then set them
+accordingly, so that the application will detect them and will connect to the PostgreSql datasource:
+[source,shell]
+----
+export POSTGRESQL_USER=user
+export POSTGRESQL_PASSWORD=pass
+export POSTGRESQL_DATABASE=db
+----
+
+* Execute the application:
+[source,shell]
+----
+java -jar target/ejb-clustered-timers-store-bootable.jar
+----
+
+== Next steps
+
+* Engage with a reviewer
+* Add tests
+* Finish Javadoc
+* Add MicroProfile OpenAPI so that contracts are available to generate client models and simplify consuming APIs.
+* Add a license
+* Add contribution guidelines
