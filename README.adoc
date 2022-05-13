@@ -1,6 +1,6 @@
-= EJB Timer execution store
+= EJB Timer expiration store
 
-This is a simple Bootable JAR application that provides REST APIs to manage a store that contains EJB timers executions.
+This is a simple Bootable JAR application that provides REST APIs to manage a store that contains EJB timers expirations.
 
 If you don't know about the Bootable JAR, then have a look to
 https://github.com/wildfly-extras/wildfly-jar-maven-plugin/[the project repository].
@@ -16,9 +16,9 @@ and layers:
 * postgresql-datasource - to support JDBC connection to a PostgreSql datasource and install default JNDI resource
 
 The application provides a file:///src/main/java/org/example/ejb/clustered/timers/store/model/[model] that abstracts
-EJB timer execution data and file:///src/main/java/org/example/ejb/clustered/timers/store/api[APIs] to manipulate them.
+EJB timer expiration data and file:///src/main/java/org/example/ejb/clustered/timers/store/api[APIs] to manipulate them.
 
-The main goal is to have a reliable store that can be used to access EJB timer execution data, which for instance can
+The main goal is to have a reliable store that can be used to access EJB timer expiration data, which for instance can
 be used for making assertions in the context of EJB timers testing.
 
 

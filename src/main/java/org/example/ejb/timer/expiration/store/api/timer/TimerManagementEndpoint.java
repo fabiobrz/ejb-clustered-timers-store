@@ -1,7 +1,7 @@
-package org.example.ejb.clustered.timers.store.api.timer;
+package org.example.ejb.timer.expiration.store.api.timer;
 
-import org.example.ejb.clustered.timers.store.model.TimerExecutionDAOImpl;
-import org.example.ejb.clustered.timers.store.model.TimerExecutionEntity;
+import org.example.ejb.timer.expiration.store.model.TimerExpirationDAOImpl;
+import org.example.ejb.timer.expiration.store.model.TimerExpirationEntity;
 
 import javax.inject.Inject;
 import javax.transaction.HeuristicMixedException;
@@ -37,17 +37,17 @@ public class TimerManagementEndpoint {
 	private UserTransaction tx;
 
 	@Inject
-	private TimerExecutionDAOImpl timerExecutionDao;
+	private TimerExpirationDAOImpl timerExpirationDAO;
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response createTimerExecution(@Context UriInfo info, TimerExecutionEntity data) {
-		TimerExecutionEntity timerExecution;
+	public Response createTimerExpiration(@Context UriInfo info, TimerExpirationEntity data) {
+		TimerExpirationEntity timerExpiration;
 		try {
 			tx.begin();
 			try {
-				timerExecution = timerExecutionDao.createTimerExecution(data);
+				timerExpiration = timerExpirationDAO.createTimerExpiration(data);
 				tx.commit();
 			} catch (RollbackException | HeuristicMixedException | HeuristicRollbackException ex) {
 				tx.rollback();
@@ -56,7 +56,7 @@ public class TimerManagementEndpoint {
 		} catch (NotSupportedException | SystemException ex) {
 			throw new WebApplicationException("Transaction management error", ex);
 		}
-		String rawPath = String.format("%s/id/%s", info.getAbsolutePath().getRawPath(), timerExecution.getId().toString());
+		String rawPath = String.format("%s/id/%s", info.getAbsolutePath().getRawPath(), timerExpiration.getId().toString());
 		UriBuilder uriBuilder = info.getAbsolutePathBuilder().replacePath(rawPath);
 		URI uri = uriBuilder.build();
 		return Response.created(uri).build();
@@ -65,13 +65,13 @@ public class TimerManagementEndpoint {
 	@GET
 	@Path("/id/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getTimerExecution(@PathParam("id") Long id) {
+	public Response getTimerExpiration(@PathParam("id") Long id) {
 		try {
 			tx.begin();
 			try {
-				final TimerExecutionEntity timerExecution = timerExecutionDao.getTimerExecution(id);
+				final TimerExpirationEntity timerExpiration = timerExpirationDAO.getTimerExpiration(id);
 				tx.commit();
-				return Response.ok(timerExecution).build();
+				return Response.ok(timerExpiration).build();
 			} catch (RollbackException | HeuristicMixedException | HeuristicRollbackException ex) {
 				tx.rollback();
 				throw new WebApplicationException("Transaction management error", ex);
@@ -83,13 +83,13 @@ public class TimerManagementEndpoint {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getTimerExecutions() {
+	public Response getTimerExpirations() {
 		try {
 			tx.begin();
 			try {
-				final List<TimerExecutionEntity> timerExecutions = timerExecutionDao.getAll();
+				final List<TimerExpirationEntity> timerExpirations = timerExpirationDAO.getAll();
 				tx.commit();
-				return Response.ok(timerExecutions).build();
+				return Response.ok(timerExpirations).build();
 			} catch (RollbackException | HeuristicMixedException | HeuristicRollbackException ex) {
 				tx.rollback();
 				throw new WebApplicationException("Transaction management error", ex);
@@ -102,13 +102,13 @@ public class TimerManagementEndpoint {
 	@GET
 	@Path("/range")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getTimerExecutions(@QueryParam("from") Instant from, @QueryParam("to") Instant to) {
+	public Response getTimerExpirations(@QueryParam("from") Instant from, @QueryParam("to") Instant to) {
 		try {
 			tx.begin();
 			try {
-				final List<TimerExecutionEntity> timerExecutions = timerExecutionDao.getTimerExecutions(from, to);
+				final List<TimerExpirationEntity> timerExpirations = timerExpirationDAO.getTimerExpirations(from, to);
 				tx.commit();
-				return Response.ok(timerExecutions).build();
+				return Response.ok(timerExpirations).build();
 			} catch (RollbackException | HeuristicMixedException | HeuristicRollbackException ex) {
 				tx.rollback();
 				throw new WebApplicationException("Transaction management error", ex);
@@ -120,13 +120,13 @@ public class TimerManagementEndpoint {
 
 	@DELETE
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response deleteTimerExecutions() {
+	public Response deleteTimerExpirations() {
 		try {
 			tx.begin();
 			try {
-				final int affectedTimerExecutions = timerExecutionDao.deleteAll();
+				final int affectedTimerExpirations = timerExpirationDAO.deleteAll();
 				tx.commit();
-				return Response.ok(affectedTimerExecutions).build();
+				return Response.ok(affectedTimerExpirations).build();
 			} catch (RollbackException | HeuristicMixedException | HeuristicRollbackException ex) {
 				tx.rollback();
 				throw new WebApplicationException("Transaction management error", ex);
