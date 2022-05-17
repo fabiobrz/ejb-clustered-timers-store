@@ -1,4 +1,4 @@
-package org.example.ejb.clustered.timers.store.api.hello;
+package org.example.ejb.timer.expiration.store.api.hello;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -16,6 +16,6 @@ public class HelloWorldEndpoint {
 	@Produces("text/plain")
 	public Response doGet() {
 		log.debug("HelloWorldEndpoint.doGet called");
-		return Response.ok("Hello from the EJB Timer Execution Store Bootable jar!").build();
+		return Response.ok("Hello from the EJB Timer Expiration Store Bootable jar!").build();
 	}
 }

@@ -1,4 +1,4 @@
-package org.example.ejb.clustered.timers.store.api.converters;
+package org.example.ejb.timer.expiration.store.api.converters;
 
 import javax.ws.rs.ext.ParamConverter;
 import javax.ws.rs.ext.Provider;

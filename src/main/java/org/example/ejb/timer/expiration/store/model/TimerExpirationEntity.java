@@ -1,4 +1,4 @@
-package org.example.ejb.clustered.timers.store.model;
+package org.example.ejb.timer.expiration.store.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,10 +10,10 @@ import java.util.Objects;
 import static javax.persistence.GenerationType.IDENTITY;
 
 /**
- * User's timer execution entity which is marked up with JPA annotations.
+ * User's timer expiration entity which is marked up with JPA annotations.
  */
 @Entity
-public class TimerExecutionEntity implements Serializable {
+public class TimerExpirationEntity implements Serializable {
 
 	private static final long serialVersionUID = 4410988609879455828L;
 
@@ -25,11 +25,11 @@ public class TimerExecutionEntity implements Serializable {
 	private String info;
 	private Instant timestamp;
 
-	public TimerExecutionEntity() {
+	public TimerExpirationEntity() {
 		this(null, null, null, null);
 	}
 
-	public TimerExecutionEntity(String name, String executor, String info, Instant timestamp) {
+	public TimerExpirationEntity(String name, String executor, String info, Instant timestamp) {
 		super();
 		this.executor = executor;
 		this.name = name;
@@ -91,7 +91,7 @@ public class TimerExecutionEntity implements Serializable {
 			return true;
 		if (o == null || getClass() != o.getClass())
 			return false;
-		TimerExecutionEntity that = (TimerExecutionEntity) o;
+		TimerExpirationEntity that = (TimerExpirationEntity) o;
 		return executor.equals(that.executor) && name.equals(that.name) && info.equals(that.info)
 				&& timestamp.equals(that.timestamp);
 	}
@@ -103,7 +103,7 @@ public class TimerExecutionEntity implements Serializable {
 
 	
 	public String toString() {
-		return "TimerExecutionEntity{" +
+		return "TimerExpirationEntity{" +
 				"id=" + id +
 				", executor='" + executor + '\'' +
 				", name='" + name + '\'' +

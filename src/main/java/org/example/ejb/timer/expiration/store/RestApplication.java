@@ -1,4 +1,4 @@
-package org.example.ejb.clustered.timers.store;
+package org.example.ejb.timer.expiration.store;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
